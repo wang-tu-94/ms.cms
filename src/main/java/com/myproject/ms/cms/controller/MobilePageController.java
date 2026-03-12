@@ -3,6 +3,7 @@ package com.myproject.ms.cms.controller;
 import com.myproject.ms.cms.dto.MobilePageDto;
 import com.myproject.ms.cms.repository.MobilePageFilter;
 import com.myproject.ms.cms.service.MobilePageService;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/mobile/page")
+@RegisterReflectionForBinding(MobilePageFilter.class)
 public class MobilePageController {
     private final MobilePageService mobilePageService;
 
