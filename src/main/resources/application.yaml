@@ -3,6 +3,13 @@ server:
   servlet:
     context-path: /api/ms-cms
 spring:
+  jackson:
+    datatype:
+      datetime:
+        write-dates-as-timestamps: true
+        write-date-timestamps-as-nanoseconds: false
+        read-date-timestamps-as-nanoseconds: false
+
   application:
     name: ms.cms
   mongodb:
@@ -18,11 +25,7 @@ spring:
       additional-settings:
         maxConnectionIdleTime: 60000
         connectTimeout: 10000
-    jackson:
-      serialization:
-        write-dates-as-timestamps: true
-      deserialization:
-        read-date-timestamps-as-nanoseconds: false
+
 
 jwt:
   secret: ${JWT_SECRET:8w9eK7sVh3FQ2mJ6lP0rXyZtN1bQ4uDkFvHsT2cW+Eo=}
