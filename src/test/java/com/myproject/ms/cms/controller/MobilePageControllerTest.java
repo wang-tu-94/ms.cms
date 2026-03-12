@@ -41,7 +41,7 @@ class MobilePageControllerTest {
 
     @Test
     @WithMockUser
-    @DisplayName("GET /v1 should return a page of DTOs")
+    @DisplayName("GET /v1/mobile/page should return a page of DTOs")
     void shouldSearchByQuery() throws Exception {
         MobilePageDto dto = new MobilePageDto("id1", State.OFFLINE, "Test Page", null, null, List.of());
         PageImpl<MobilePageDto> page = new PageImpl<>(List.of(dto));
@@ -49,7 +49,7 @@ class MobilePageControllerTest {
         when(mobilePageService.searchByQuery(any(MobilePageFilter.class), any(Pageable.class)))
                 .thenReturn(page);
 
-        mockMvc.perform(get("/v1")
+        mockMvc.perform(get("/v1/mobile/page")
                         .param("name", "Test")
                         .param("page", "0")
                         .param("size", "10"))
@@ -61,14 +61,14 @@ class MobilePageControllerTest {
 
     @Test
     @WithMockUser
-    @DisplayName("GET /v1/{id} should return 200 when found")
+    @DisplayName("GET /v1/mobile/page/{id} should return 200 when found")
     void shouldGetById() throws Exception {
         String id = "65ef1234567890";
         MobilePageDto dto = new MobilePageDto(id, State.ONLINE, "Found", null, null, List.of());
 
         when(mobilePageService.findById(id)).thenReturn(dto);
 
-        mockMvc.perform(get("/v1/{id}", id))
+        mockMvc.perform(get("/v1/mobile/page/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value("Found"));
@@ -76,14 +76,14 @@ class MobilePageControllerTest {
 
     @Test
     @WithMockUser
-    @DisplayName("POST /v1 should create and return the page")
+    @DisplayName("POST /v1/mobile/page should create and return the page")
     void shouldCreatePage() throws Exception {
         MobilePageDto inputDto = new MobilePageDto(null, State.OFFLINE, "New Page", null, null, List.of());
         MobilePageDto outputDto = new MobilePageDto("generated-id", State.OFFLINE, "New Page", Instant.now(), null, List.of());
 
         when(mobilePageService.save(any(MobilePageDto.class))).thenReturn(outputDto);
 
-        mockMvc.perform(post("/v1")
+        mockMvc.perform(post("/v1/mobile/page")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(inputDto)))
@@ -94,12 +94,12 @@ class MobilePageControllerTest {
 
     @Test
     @WithMockUser
-    @DisplayName("GET /v1/{id} should return 404 or 500 depending on service exception")
+    @DisplayName("GET /v1/mobile/page/{id} should return 404 or 500 depending on service exception")
     void shouldHandleNotFound() throws Exception {
         String id = "non-existent";
         when(mobilePageService.findById(id)).thenThrow(new NotFoundException("Page not found"));
 
-        mockMvc.perform(get("/v1/{id}", id))
+        mockMvc.perform(get("/v1/mobile/page/{id}", id))
                 .andExpect(status().isNotFound());
     }
 }

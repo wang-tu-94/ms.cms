@@ -3,19 +3,17 @@ server:
   servlet:
     context-path: /api/ms.cms
 spring:
-  aot:
-    enabled: false
   application:
     name: ms.cms
+  mongodb:
+    host: ${MONGO_HOST:localhost}
+    port: ${MONGO_PORT:27017}
+    database: ${MONGO_DB:ms-cms}
+    username: ${MONGO_USER:admin}
+    password: ${MONGO_PASSWORD:password}
+    authentication-database: admin
   data:
     mongodb:
-      host: ${MONGO_HOST:localhost}
-      port: ${MONGO_PORT:27017}
-      database: ${MONGO_DB:ms-cms}
-      username: ${MONGO_USER:admin}
-      password: ${MONGO_PASSWORD:password}
-      authentication-database: admin
-
       auto-index-creation: true
       additional-settings:
         maxConnectionIdleTime: 60000
